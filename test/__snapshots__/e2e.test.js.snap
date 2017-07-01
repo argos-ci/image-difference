@@ -1,43 +1,43 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`imageDifference diffing different images 1`] = `
+exports[`e2e diffing different images 1`] = `
 Object {
-  "percentage": 0.612372,
-  "total": 40131.8,
+  "percentage": 0.375,
+  "total": 24575.6,
 }
 `;
 
-exports[`imageDifference diffing different images without an output image 1`] = `
+exports[`e2e diffing different images without an output image 1`] = `
 Object {
-  "percentage": 0.612372,
-  "total": 40131.8,
+  "percentage": 0.375,
+  "total": 24575.6,
 }
 `;
 
-exports[`imageDifference diffing different sizes images 1`] = `
+exports[`e2e diffing different sizes images 1`] = `
 Object {
-  "percentage": 0.745356,
-  "total": 48846.9,
+  "percentage": 0.555556,
+  "total": 36408.3,
 }
 `;
 
-exports[`imageDifference diffing images which cannot scale into each other 1`] = `
+exports[`e2e diffing images which cannot scale into each other 1`] = `
 Object {
-  "percentage": 0.352767,
-  "total": 23118.6,
+  "percentage": 0.124444,
+  "total": 8155.47,
 }
 `;
 
-exports[`imageDifference diffing images with shadow on 1`] = `
+exports[`e2e diffing images with shadow on 1`] = `
 Object {
-  "percentage": 0.745356,
-  "total": 48846.9,
+  "percentage": 0.555556,
+  "total": 36408.3,
 }
 `;
 
-exports[`imageDifference diffing the same image where 1 has a transparent background 1`] = `
+exports[`e2e diffing the same image where 1 has a transparent background 1`] = `
 Object {
-  "percentage": 0.707107,
-  "total": 46340.2,
+  "percentage": 0.5,
+  "total": 32767.5,
 }
 `;

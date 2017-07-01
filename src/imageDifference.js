@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import gm from 'gm'
-import bufferedSpawn from 'buffered-spawn'
+import spawn from 'cross-spawn'
 import mkdirp from 'mkdirp'
 import tmp from 'tmp'
 
@@ -93,7 +93,13 @@ function createDifference(options) {
     throw new Error('Wrong options provided to createDifference()')
   }
 
-  const diffArgs = ['-verbose', '-metric', 'RMSE', '-highlight-color', 'RED']
+  const diffArgs = [
+    '-verbose',
+    '-metric', // http://www.imagemagick.org/script/command-line-options.php#metric
+    'MSE',
+    '-highlight-color',
+    'RED',
+  ]
     // Shadow options if options.shadow is set
     .concat(shadow ? [] : ['-compose', 'Src'])
     // Paths to actual, expected, and diff images
@@ -104,18 +110,53 @@ function createDifference(options) {
       diffFilename || '-',
     ])
 
-  // Ignore `stdin` and `stdout` (useful for ignoring when images are being sent to stdout)
-  const spawnOptions = { stdio: ['ignore', 'ignore', 'pipe'] }
-
   return new Promise((accept, reject) => {
+    // gmMagick().compare(
+    //   actualFilename,
+    //   expectedFilename,
+    //   {
+    //     tolerance: 0.4,
+    //     // highlightColor: 'RED',
+    //     // highlightStyle: 'Assign',
+    //     file: diffFilename,
+    //   },
+    //   (err, Boolean, equality, rawOutput) => {
+    //     if (err) {
+    //       reject(err)
+    //       return
+    //     }
+
+    //     accept({
+    //       percentage: equality,
+    //     })
+    //   }
+    // )
+
     // http://www.imagemagick.org/script/compare.php
-    bufferedSpawn('compare', diffArgs, spawnOptions, (err, stdout, stderr) => {
-      if (err && !stderr) {
-        reject(err)
+    const proc = spawn('compare', diffArgs)
+    let stdout = ''
+    let stderr = ''
+    proc.stdout.on('data', data => {
+      stdout += data
+    })
+    proc.stderr.on('data', data => {
+      stderr += data
+    })
+    proc.on('close', code => {
+      const isImageMagick = true
+      // ImageMagick returns err code 2 if err, 0 if similar, 1 if dissimilar
+      if (isImageMagick) {
+        if (code === 0 || code === 1) {
+          stdout = stderr
+        } else {
+          reject(stderr)
+          return
+        }
+      } else if (code !== 0) {
+        reject(stderr)
         return
       }
-
-      accept(stderr)
+      accept(stdout)
     })
   })
 }
