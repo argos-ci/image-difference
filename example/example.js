@@ -1,12 +1,12 @@
 /* eslint-disable no-console */
 
-import imageDiff from '../src/imageDifference'
+import imageDifference from '../src/imageDifference'
 
-imageDiff(
+imageDifference(
   {
-    actualImage: `${__dirname}/images/hello-world.png`,
-    expectedImage: `${__dirname}/images/hello.png`,
-    diffImage: `${__dirname}/images/hello-diff.png`,
+    actualFilename: `${__dirname}/images/hello-world.png`,
+    expectedFilename: `${__dirname}/images/hello.png`,
+    diffFilename: `${__dirname}/images/hello-diff.png`,
   },
   console.log
 )

@@ -111,6 +111,12 @@ function createDifference(options) {
     ])
 
   return new Promise((accept, reject) => {
+    // https://github.com/aheckmann/gm/blob/master/lib/compare.js
+    //
+    // http://www.graphicsmagick.org/GraphicsMagick.html
+    // gm.compare(
+    //
+    // http://www.imagemagick.org/script/compare.php
     // gmMagick().compare(
     //   actualFilename,
     //   expectedFilename,
@@ -132,7 +138,6 @@ function createDifference(options) {
     //   }
     // )
 
-    // http://www.imagemagick.org/script/compare.php
     const proc = spawn('compare', diffArgs)
     let stdout = ''
     let stderr = ''
