@@ -27,10 +27,10 @@
     "test:watch": "yarn test:unit -- --watch"
   },
   "dependencies": {
-    "buffered-spawn": "~1.1.1",
     "chalk": "^2.0.1",
     "commander": "^2.10.0",
-    "gm": "~1.21.1",
+    "cross-spawn": "^5.1.0",
+    "gm": "^1.23.0",
     "mkdirp": "^0.5.1",
     "tmp": "^0.0.31"
   },

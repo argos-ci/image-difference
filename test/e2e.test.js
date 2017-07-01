@@ -18,7 +18,7 @@ function getPixelsAsync(filename) {
 // Clean up actual-files
 rimraf.sync(`${__dirname}/actual-files`)
 
-describe('imageDifference', () => {
+describe('e2e', () => {
   it('diffing different images', async () => {
     const difference = await imageDifference({
       actualFilename: `${__dirname}/test-files/checkerboard.png`,
@@ -38,8 +38,8 @@ describe('imageDifference', () => {
       expectedFilename: `${__dirname}/test-files/checkerboard.png`,
       diffFilename: `${__dirname}/actual-files/same.png`,
     })
-    const actual = await getPixelsAsync(`${__dirname}/actual-files/different.png`)
-    const expected = await getPixelsAsync(`${__dirname}/expected-files/different.png`)
+    const actual = await getPixelsAsync(`${__dirname}/actual-files/same.png`)
+    const expected = await getPixelsAsync(`${__dirname}/expected-files/same.png`)
 
     expect(difference).toEqual({
       percentage: 0,
