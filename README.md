@@ -2,6 +2,13 @@
 
 > Create image differential between two images
 
+[![npm package](https://img.shields.io/npm/v/image-difference.svg)](https://www.npmjs.org/package/image-difference)
+[![Build Status](https://travis-ci.org/argos-ci/image-difference.svg?branch=master)](https://travis-ci.org/argos-ci/image-difference)
+
+[![PeerDependencies](https://img.shields.io/david/peer/argos-ci/image-difference.svg)](https://david-dm.org/argos-ci/image-difference#info=peerDependencies&view=list)
+[![Dependencies](https://img.shields.io/david/argos-ci/image-difference.svg)](https://david-dm.org/argos-ci/image-difference)
+[![DevDependencies](https://img.shields.io/david/dev/argos-ci/image-difference.svg)](https://david-dm.org/argos-ci/image-difference#info=devDependencies&view=list)
+
 ## The problem solved
 
 ![difference](example/example.png)
