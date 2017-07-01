@@ -1,58 +1,65 @@
 {
-  "name": "image-diff",
+  "name": "image-difference",
   "description": "Create image differential between two images",
-  "version": "1.6.3",
-  "homepage": "https://github.com/uber/image-diff",
-  "author": {
-    "name": "Todd Wolfson",
-    "email": "todd@twolfson.com",
-    "url": "http://twolfson.com/"
-  },
+  "version": "2.0.0",
+  "homepage": "https://github.com/argos-ci/image-difference",
   "repository": {
     "type": "git",
-    "url": "git://github.com/uber/image-diff.git"
+    "url": "git://github.com/argos-ci/image-difference.git"
   },
   "bugs": {
-    "url": "https://github.com/uber/image-diff/issues"
+    "url": "https://github.com/argos-ci/image-difference/issues"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/uber/image-diff/blob/master/LICENSE-MIT"
-    }
-  ],
+  "licenses": "MIT",
   "bin": {
-    "image-diff": "bin/image-diff"
+    "image-difference": "bin/image-difference"
   },
-  "main": "lib/image-diff",
+  "main": "lib/imageDifference",
   "engines": {
-    "node": ">= 0.8.0"
+    "node": ">= 7.0.0"
   },
   "scripts": {
-    "test": "grunt jshint && mocha"
+    "build": "NODE_ENV=production babel -d lib src",
+    "prepublish": "yarn build && pkgfiles",
+    "prettier": "find . -name \"*.js\" | grep -v -f .eslintignore | xargs prettier --write --no-semi --single-quote --trailing-comma es5 --print-width 100",
+    "test:unit": "jest",
+    "lint": "eslint . --cache && echo \"eslint: no lint errors\"",
+    "test:watch": "yarn test:unit -- --watch"
   },
   "dependencies": {
-    "async": "~0.2.9",
     "buffered-spawn": "~1.1.1",
-    "commander": "~2.9.0",
+    "chalk": "^2.0.1",
+    "commander": "^2.10.0",
     "gm": "~1.21.1",
-    "mkdirp": "~0.3.5",
-    "tmp": "0.0.23"
+    "mkdirp": "^0.5.1",
+    "tmp": "^0.0.31"
   },
   "devDependencies": {
-    "foundry": "~3.1.0",
-    "foundry-release-git": "~1.1.0",
-    "foundry-release-npm": "~1.1.0",
-    "get-pixels": "~1.0.1",
-    "grunt": "~0.4.1",
-    "grunt-cli": "~0.1.11",
-    "grunt-contrib-jshint": "~0.6.0",
-    "grunt-contrib-watch": "~0.4.0",
-    "mocha": "~1.11.0",
-    "rimraf": "~2.2.6"
+    "babel-cli": "^6.24.1",
+    "babel-eslint": "^7.2.3",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-preset-env": "^1.5.2",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^15.0.1",
+    "eslint-import-resolver-node": "^0.3.1",
+    "eslint-plugin-babel": "^4.1.1",
+    "eslint-plugin-import": "^2.6.1",
+    "eslint-plugin-jest": "^20.0.3",
+    "eslint-plugin-jsx-a11y": "^5.0.3",
+    "eslint-plugin-prettier": "^2.1.2",
+    "eslint-plugin-react": "^7.1.0",
+    "get-pixels": "^3.3.0",
+    "jest": "^20.0.4",
+    "pkgfiles": "^2.3.2",
+    "prettier": "^1.5.2",
+    "rimraf": "^2.6.1"
   },
   "keywords": [
     "image",
-    "diff"
-  ]
+    "difference"
+  ],
+  "jest": {
+    "cacheDirectory": "/tmp/jest"
+  }
 }
