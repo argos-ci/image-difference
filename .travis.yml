@@ -1,21 +1,9 @@
 language: node_js
 node_js:
-  - "6"
-  - "5"
-  - "4"
-  - "0.12"
-  - "0.11"
-  - "0.10"
-matrix:
-  allow_failures:
-    - node_js: "0.11"
-
+  - "8"
+  - "7"
 install:
   # Output imagemagick version
   - convert -version
-
   # Install dependencies
-  - npm install
-
-notifications:
-  email: false
+  - yarn
