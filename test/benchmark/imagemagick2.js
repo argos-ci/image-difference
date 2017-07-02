@@ -10,7 +10,7 @@ rimraf.sync(`${__dirname}/../actual-files`)
 const suite = new Benchmark.Suite()
 
 suite
-  .add('imagemagick2 diff', {
+  .add('image-difference imagemagick2 diff', {
     minSamples: 20,
     defer: true,
     fn: deferred => {
@@ -24,7 +24,7 @@ suite
       })
     },
   })
-  .add('imagemagick2 same', {
+  .add('image-difference imagemagick2 same', {
     minSamples: 20,
     defer: true,
     fn: deferred => {

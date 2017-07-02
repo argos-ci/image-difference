@@ -82,14 +82,14 @@ We use `imagemagick1` as the default implmentation
 image-diff diff x 1.19 ops/sec ±4.81% (25 runs sampled)
 image-diff same x 1.29 ops/sec ±1.59% (26 runs sampled)
 
-graphicsmagick same x 1.93 ops/sec ±1.51% (29 runs sampled)
-graphicsmagick diff x 1.89 ops/sec ±1.50% (28 runs sampled)
+image-difference graphicsmagick same x 1.93 ops/sec ±1.51% (29 runs sampled)
+image-difference graphicsmagick diff x 1.89 ops/sec ±1.50% (28 runs sampled)
 
-imagemagick1 diff x 3.83 ops/sec ±1.72% (38 runs sampled)
-imagemagick1 same x 3.85 ops/sec ±1.23% (38 runs sampled)
+image-difference imagemagick1 diff x 3.83 ops/sec ±1.72% (38 runs sampled)
+image-difference imagemagick1 same x 3.85 ops/sec ±1.23% (38 runs sampled)
 
-imagemagick2 diff x 3.06 ops/sec ±1.21% (34 runs sampled)
-imagemagick2 same x 3.06 ops/sec ±1.40% (34 runs sampled)
+image-difference imagemagick2 diff x 3.06 ops/sec ±1.21% (34 runs sampled)
+image-difference imagemagick2 same x 3.06 ops/sec ±1.40% (34 runs sampled)
 
 looksSame diff x 2.13 ops/sec ±4.58% (30 runs sampled)
 looksSame same x 1.43 ops/sec ±2.54% (27 runs sampled)
