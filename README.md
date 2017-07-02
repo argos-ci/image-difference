@@ -79,6 +79,9 @@ Options:
 We use `imagemagick1` as the default implmentation
 
 ```sh
+image-diff diff x 1.19 ops/sec ±4.81% (25 runs sampled)
+image-diff same x 1.29 ops/sec ±1.59% (26 runs sampled)
+
 graphicsmagick same x 1.93 ops/sec ±1.51% (29 runs sampled)
 graphicsmagick diff x 1.89 ops/sec ±1.50% (28 runs sampled)
 
