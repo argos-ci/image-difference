@@ -2,42 +2,36 @@
 
 exports[`e2e diffing different images 1`] = `
 Object {
-  "percentage": 0.375,
-  "total": 24575.6,
+  "value": 47,
 }
 `;
 
 exports[`e2e diffing different images without an output image 1`] = `
 Object {
-  "percentage": 0.375,
-  "total": 24575.6,
+  "value": 47,
 }
 `;
 
 exports[`e2e diffing different sizes images 1`] = `
 Object {
-  "percentage": 0.555556,
-  "total": 36408.3,
+  "value": 125,
 }
 `;
 
 exports[`e2e diffing images which cannot scale into each other 1`] = `
 Object {
-  "percentage": 0.124444,
-  "total": 8155.47,
+  "value": 28,
 }
 `;
 
 exports[`e2e diffing images with shadow on 1`] = `
 Object {
-  "percentage": 0.555556,
-  "total": 36408.3,
+  "value": 125,
 }
 `;
 
 exports[`e2e diffing the same image where 1 has a transparent background 1`] = `
 Object {
-  "percentage": 0.5,
-  "total": 32767.5,
+  "value": 100,
 }
 `;

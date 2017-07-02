@@ -38,27 +38,48 @@ function getImageSize(filename) {
   })
 }
 
-export function extractDifference(raw) {
+export function extractDifference(raw, options) {
   // Only process once
   if (raw.percentage !== undefined) {
     return raw
   }
 
-  // Find variant between 'all: 0 (0)', 'all: 40131.8 (0.612372)', or 'all: 0.460961 (7.03381e-06)'
-  // According to http://www.imagemagick.org/discourse-server/viewtopic.php?f=1&t=17284
-  // These values are the total square root mean square (RMSE) pixel difference
-  // across all pixels and its percentage
-  const resultInfo = raw.match(
-    /all: (\d+(?:\.\d+)?(?:[Ee]-?\d+)?) \((\d+(?:\.\d+)?(?:[Ee]-?\d+)?)\)/
-  )
+  let resultInfo
 
-  if (!resultInfo) {
-    throw new Error(`Expected raw to contain 'all' but received "${raw}"`)
-  }
+  switch (options.metric) {
+    case 'PAE':
+    case 'MSE':
+    case 'RMSE':
+    case 'MAE':
+      // Find variant between 'all: 0 (0)', 'all: 40131.8 (0.612372)', or 'all: 0.460961 (7.03381e-06)'
+      // According to http://www.imagemagick.org/discourse-server/viewtopic.php?f=1&t=17284
+      // These values are the total root mean square (MSE) pixel difference
+      // across all pixels and its percentage
+      resultInfo = raw.match(/all: (\d+(?:\.\d+)?(?:[Ee]-?\d+)?) \((\d+(?:\.\d+)?(?:[Ee]-?\d+)?)\)/)
+      if (!resultInfo) {
+        throw new Error(`Expected raw to contain 'all' but received "${raw}"`)
+      }
 
-  return {
-    total: parseFloat(resultInfo[1], 10),
-    percentage: parseFloat(resultInfo[2], 10),
+      return {
+        value1: parseFloat(resultInfo[1], 10),
+        value2: parseFloat(resultInfo[2], 10),
+      }
+
+    case 'PHASH':
+    case 'PSNR':
+    case 'AE':
+    case 'NCC':
+    case 'FUZZ':
+      resultInfo = raw.match(/all: (\d+(\.\d+)?)/)
+      if (!resultInfo) {
+        throw new Error(`Expected raw to contain 'all' but received "${raw}"`)
+      }
+      return {
+        value: parseFloat(resultInfo[1], 10),
+      }
+
+    default:
+      throw new Error('Unknown metric')
   }
 }
 
@@ -93,11 +114,14 @@ function resizeImage(filename, options) {
 
 function createDifference(options) {
   const {
-    shadow,
     actualFilename,
     expectedFilename,
     diffFilename,
-    implementation = 'imagemagick1',
+    implementation,
+    metric,
+    highlightColor = 'red',
+    lowlightColor = 'white',
+    fuzz,
   } = options
 
   if (!actualFilename || !expectedFilename) {
@@ -106,13 +130,15 @@ function createDifference(options) {
 
   const diffArgs = [
     '-verbose',
-    '-metric', // http://www.imagemagick.org/script/command-line-options.php#metric
-    'MSE',
     '-highlight-color',
-    'RED',
+    highlightColor,
+    '-lowlight-color',
+    lowlightColor,
   ]
-    // Shadow options if options.shadow is set
-    .concat(shadow ? [] : ['-compose', 'Src'])
+    .concat(fuzz ? ['-fuzz', fuzz] : [])
+    // http://www.imagemagick.org/script/command-line-options.php#metric
+    // https://github.com/ImageMagick/ImageMagick/blob/master/MagickCore/compare.c
+    .concat(metric ? ['-metric', metric] : [])
     // Paths to actual, expected, and diff images
     .concat([
       actualFilename,
@@ -294,8 +320,15 @@ export async function rawDifference(options) {
   return raw
 }
 
-export default async function imageDifference(options) {
-  const { actualFilename, expectedFilename } = options
+export default async function imageDifference(optionsWithoutDefault) {
+  const {
+    actualFilename,
+    expectedFilename,
+    implementation = 'imagemagick1',
+    metric = 'AE',
+    fuzz = 0,
+    ...other
+  } = optionsWithoutDefault
 
   // Assert our options are passed in
   if (!actualFilename) {
@@ -306,6 +339,15 @@ export default async function imageDifference(options) {
     throw new Error('`options.expectedFilename` was not passed to `image-difference`')
   }
 
+  const options = {
+    actualFilename,
+    expectedFilename,
+    implementation,
+    metric,
+    fuzz,
+    ...other,
+  }
+
   const raw = await rawDifference(options)
-  return extractDifference(raw)
+  return extractDifference(raw, options)
 }

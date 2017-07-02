@@ -42,8 +42,7 @@ describe('e2e', () => {
     const expected = await getPixelsAsync(`${__dirname}/expected-files/same.png`)
 
     expect(difference).toEqual({
-      percentage: 0,
-      total: 0,
+      value: 0,
     })
     expect(actual).toEqual(expected)
   })

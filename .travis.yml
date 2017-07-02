@@ -7,3 +7,9 @@ install:
   - convert -version
   # Install dependencies
   - yarn
+before_install:
+  - sudo apt-get install graphicsmagick -y
+script:
+  - yarn lint
+  - yarn test:unit
+  - yarn test:benchmark
