@@ -93,6 +93,9 @@ looksSame same x 1.43 ops/sec ±2.54% (27 runs sampled)
 
 pixelmatch diff x 0.77 ops/sec ±2.04% (23 runs sampled)
 pixelmatch same x 3.22 ops/sec ±3.45% (36 runs sampled)
+
+resemble diff x 0.59 ops/sec ±3.34% (22 runs sampled)
+resemble same x 1.70 ops/sec ±1.86% (28 runs sampled)
 ```
 
 ## Contributing

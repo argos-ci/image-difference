@@ -20,11 +20,12 @@
   },
   "scripts": {
     "build": "NODE_ENV=production babel -d lib src",
-    "prepublish": "yarn build && pkgfiles",
+    "prepublishOnly": "yarn build && pkgfiles",
     "prettier": "find . -name \"*.js\" | grep -v -f .eslintignore | xargs prettier --write --no-semi --single-quote --trailing-comma es5 --print-width 100",
     "test:unit": "jest",
     "lint": "eslint . --cache && echo \"eslint: no lint errors\"",
-    "test:watch": "yarn test:unit -- --watch"
+    "test:watch": "yarn test:unit -- --watch",
+    "test:benchmark": "babel-node test/benchmark/graphicsmagick.js && babel-node test/benchmark/imagemagick1.js && babel-node test/benchmark/imagemagick2.js && babel-node test/benchmark/pixelmatch.js"
   },
   "dependencies": {
     "chalk": "^2.0.1",
@@ -57,6 +58,7 @@
     "pkgfiles": "^2.3.2",
     "pngjs": "^3.2.0",
     "prettier": "^1.5.2",
+    "resemblejs-node": "^1.0.0",
     "rimraf": "^2.6.1"
   },
   "keywords": [
