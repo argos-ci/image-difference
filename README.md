@@ -73,6 +73,28 @@ Options:
   --shadow       Draw a shadow of unchanges parts on diff filename
 ```
 
+
+## Benchmark
+
+We use `imagemagick1` as the default implmentation
+
+```sh
+graphicsmagick same x 1.93 ops/sec ±1.51% (29 runs sampled)
+graphicsmagick diff x 1.89 ops/sec ±1.50% (28 runs sampled)
+
+imagemagick1 diff x 3.83 ops/sec ±1.72% (38 runs sampled)
+imagemagick1 same x 3.85 ops/sec ±1.23% (38 runs sampled)
+
+imagemagick2 diff x 3.06 ops/sec ±1.21% (34 runs sampled)
+imagemagick2 same x 3.06 ops/sec ±1.40% (34 runs sampled)
+
+looksSame diff x 2.13 ops/sec ±4.58% (30 runs sampled)
+looksSame same x 1.43 ops/sec ±2.54% (27 runs sampled)
+
+pixelmatch diff x 0.77 ops/sec ±2.04% (23 runs sampled)
+pixelmatch same x 3.22 ops/sec ±3.45% (36 runs sampled)
+```
+
 ## Contributing
 
 ```sh
