@@ -137,6 +137,7 @@ function createDifference(options) {
   ]
     .concat(fuzz ? ['-fuzz', fuzz] : [])
     // http://www.imagemagick.org/script/command-line-options.php#metric
+    // http://www.imagemagick.org/Usage/compare/
     // https://github.com/ImageMagick/ImageMagick/blob/master/MagickCore/compare.c
     .concat(metric ? ['-metric', metric] : [])
     // Paths to actual, expected, and diff images
