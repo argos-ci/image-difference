@@ -39,6 +39,11 @@ function getImageSize(filename) {
 }
 
 export function extractDifference(raw) {
+  // Only process once
+  if (raw.percentage !== undefined) {
+    return raw
+  }
+
   // Find variant between 'all: 0 (0)', 'all: 40131.8 (0.612372)', or 'all: 0.460961 (7.03381e-06)'
   // According to http://www.imagemagick.org/discourse-server/viewtopic.php?f=1&t=17284
   // These values are the total square root mean square (RMSE) pixel difference
@@ -87,7 +92,13 @@ function resizeImage(filename, options) {
 }
 
 function createDifference(options) {
-  const { shadow, actualFilename, expectedFilename, diffFilename } = options
+  const {
+    shadow,
+    actualFilename,
+    expectedFilename,
+    diffFilename,
+    implementation = 'imagemagick1',
+  } = options
 
   if (!actualFilename || !expectedFilename) {
     throw new Error('Wrong options provided to createDifference()')
@@ -111,72 +122,92 @@ function createDifference(options) {
     ])
 
   return new Promise((accept, reject) => {
-    // https://github.com/aheckmann/gm/blob/master/lib/compare.js
-    //
-    // http://www.graphicsmagick.org/GraphicsMagick.html
-    // gm.compare(
-    //
-    // http://www.imagemagick.org/script/compare.php
-    // gmMagick().compare(
-    //   actualFilename,
-    //   expectedFilename,
-    //   {
-    //     tolerance: 0.4,
-    //     // highlightColor: 'RED',
-    //     // highlightStyle: 'Assign',
-    //     file: diffFilename,
-    //   },
-    //   (err, Boolean, equality, rawOutput) => {
-    //     if (err) {
-    //       reject(err)
-    //       return
-    //     }
-
-    //     accept({
-    //       percentage: equality,
-    //     })
-    //   }
-    // )
-
-    const proc = spawn('compare', diffArgs)
-    let stdout = ''
-    let stderr = ''
-    proc.stdout.on('data', data => {
-      stdout += data
-    })
-    proc.stderr.on('data', data => {
-      stderr += data
-    })
-    proc.on('close', code => {
-      const isImageMagick = true
-      // ImageMagick returns err code 2 if err, 0 if similar, 1 if dissimilar
-      if (isImageMagick) {
-        if (code === 0 || code === 1) {
-          stdout = stderr
-        } else {
-          reject(stderr)
-          return
-        }
-      } else if (code !== 0) {
-        reject(stderr)
-        return
+    switch (implementation) {
+      case 'imagemagick1': {
+        // http://www.imagemagick.org/script/compare.php
+        const proc = spawn('compare', diffArgs)
+        let stdout = ''
+        let stderr = ''
+        proc.stdout.on('data', data => {
+          stdout += data
+        })
+        proc.stderr.on('data', data => {
+          stderr += data
+        })
+        proc.on('close', code => {
+          const isImageMagick = true
+          // ImageMagick returns err code 2 if err, 0 if similar, 1 if dissimilar
+          if (isImageMagick) {
+            if (code === 0 || code === 1) {
+              stdout = stderr
+            } else {
+              reject(stderr)
+              return
+            }
+          } else if (code !== 0) {
+            reject(stderr)
+            return
+          }
+          accept(stdout)
+        })
+        break
       }
-      accept(stdout)
-    })
+
+      case 'imagemagick2':
+        // http://www.imagemagick.org/script/compare.php
+        // https://github.com/aheckmann/gm/blob/master/lib/compare.js
+        gmMagick().compare(
+          actualFilename,
+          expectedFilename,
+          {
+            file: diffFilename,
+          },
+          (err, Boolean, equality) => {
+            if (err) {
+              reject(err)
+              return
+            }
+
+            accept({
+              percentage: equality,
+            })
+          }
+        )
+        break
+
+      case 'graphicsmagick': {
+        // http://www.graphicsmagick.org/GraphicsMagick.html
+        // https://github.com/aheckmann/gm/blob/master/lib/compare.js
+        gm.compare(
+          actualFilename,
+          expectedFilename,
+          {
+            highlightColor: 'RED',
+            highlightStyle: 'Assign',
+            file: diffFilename,
+          },
+          (err, Boolean, equality) => {
+            if (err) {
+              reject(err)
+              return
+            }
+
+            accept({
+              percentage: equality,
+            })
+          }
+        )
+        break
+      }
+
+      default:
+        throw new Error('Unknow implementation')
+    }
   })
 }
 
 export async function rawDifference(options) {
-  const { actualFilename, expectedFilename, diffFilename, shadow } = options
-
-  // Assert our options are passed in
-  if (!actualFilename) {
-    throw new Error('`options.actualFilename` was not passed to `image-difference`')
-  }
-
-  if (!expectedFilename) {
-    throw new Error('`options.expectedFilename` was not passed to `image-difference`')
-  }
+  const { actualFilename, expectedFilename, diffFilename, ...other } = options
 
   await Promise.all(
     [actualFilename, expectedFilename].map(
@@ -240,7 +271,7 @@ export async function rawDifference(options) {
     actualFilename: actualTmpFilename || actualFilename,
     expectedFilename: expectedTmpFilename || expectedFilename,
     diffFilename,
-    shadow,
+    ...other,
   })
 
   // Clean up the temporary files
@@ -264,6 +295,17 @@ export async function rawDifference(options) {
 }
 
 export default async function imageDifference(options) {
+  const { actualFilename, expectedFilename } = options
+
+  // Assert our options are passed in
+  if (!actualFilename) {
+    throw new Error('`options.actualFilename` was not passed to `image-difference`')
+  }
+
+  if (!expectedFilename) {
+    throw new Error('`options.expectedFilename` was not passed to `image-difference`')
+  }
+
   const raw = await rawDifference(options)
   return extractDifference(raw)
 }
