@@ -38,10 +38,12 @@ function getImageSize(filename) {
   })
 }
 
-export function extractDifference(raw, options) {
+export function handleRaw(difference, options) {
+  const { raw, ...other } = difference
+
   // Only process once
-  if (raw.percentage !== undefined) {
-    return raw
+  if (typeof raw === 'number') {
+    return difference
   }
 
   let resultInfo
@@ -61,6 +63,7 @@ export function extractDifference(raw, options) {
       }
 
       return {
+        ...other,
         value1: parseFloat(resultInfo[1], 10),
         value2: parseFloat(resultInfo[2], 10),
       }
@@ -75,6 +78,7 @@ export function extractDifference(raw, options) {
         throw new Error(`Expected raw to contain 'all' but received "${raw}"`)
       }
       return {
+        ...other,
         value: parseFloat(resultInfo[1], 10),
       }
 
@@ -119,14 +123,10 @@ function createDifference(options) {
     diffFilename,
     implementation,
     metric,
-    highlightColor = 'red',
-    lowlightColor = 'white',
+    highlightColor,
+    lowlightColor,
     fuzz,
   } = options
-
-  if (!actualFilename || !expectedFilename) {
-    throw new Error('Wrong options provided to createDifference()')
-  }
 
   const diffArgs = [
     '-verbose',
@@ -134,12 +134,13 @@ function createDifference(options) {
     highlightColor,
     '-lowlight-color',
     lowlightColor,
-  ]
-    .concat(fuzz ? ['-fuzz', fuzz] : [])
     // http://legacy.imagemagick.org/script/command-line-options.php#metric
     // http://www.imagemagick.org/Usage/compare/
     // https://github.com/ImageMagick/ImageMagick/blob/master/MagickCore/compare.c
-    .concat(metric ? ['-metric', metric] : [])
+    '-metric',
+    metric,
+  ]
+    .concat(fuzz ? ['-fuzz', fuzz] : [])
     // Paths to actual, expected, and diff images
     .concat([
       actualFilename,
@@ -195,9 +196,7 @@ function createDifference(options) {
               return
             }
 
-            accept({
-              percentage: equality,
-            })
+            accept(equality)
           }
         )
         break
@@ -219,9 +218,7 @@ function createDifference(options) {
               return
             }
 
-            accept({
-              percentage: equality,
-            })
+            accept(equality)
           }
         )
         break
@@ -318,7 +315,11 @@ export async function rawDifference(options) {
     )
   )
 
-  return raw
+  return {
+    raw,
+    width: maxWidth,
+    height: maxHeight,
+  }
 }
 
 export default async function imageDifference(optionsWithoutDefault) {
@@ -327,6 +328,8 @@ export default async function imageDifference(optionsWithoutDefault) {
     expectedFilename,
     implementation = 'imagemagick1',
     metric = 'AE',
+    highlightColor = 'red',
+    lowlightColor = 'white',
     fuzz = 0,
     ...other
   } = optionsWithoutDefault
@@ -345,10 +348,12 @@ export default async function imageDifference(optionsWithoutDefault) {
     expectedFilename,
     implementation,
     metric,
+    highlightColor,
+    lowlightColor,
     fuzz,
     ...other,
   }
 
-  const raw = await rawDifference(options)
-  return extractDifference(raw, options)
+  const difference = await rawDifference(options)
+  return handleRaw(difference, options)
 }

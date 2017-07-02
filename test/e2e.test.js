@@ -43,6 +43,8 @@ describe('e2e', () => {
 
     expect(difference).toEqual({
       value: 0,
+      width: 10,
+      height: 10,
     })
     expect(actual).toEqual(expected)
   })

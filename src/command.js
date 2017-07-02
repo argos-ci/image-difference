@@ -36,11 +36,12 @@ program
       process.exit(1)
     }
 
-    if (difference.total === 0) {
+    if (difference.value === 0) {
       displaySuccess('No difference')
     } else {
       displayError(
-        `A difference was detected (total: ${difference.total}, percentage: ${difference.percentage})`
+        `A difference was detected (value: ${difference.value}, percentage: ${difference.value /
+          (difference.width * difference.height)})`
       )
       process.exit(1)
     }
