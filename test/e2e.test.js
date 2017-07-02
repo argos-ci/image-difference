@@ -90,18 +90,4 @@ describe('e2e', () => {
     })
     expect(difference).toMatchSnapshot()
   })
-
-  it('diffing images with shadow on', async () => {
-    const difference = await imageDifference({
-      actualFilename: `${__dirname}/test-files/checkerboard-excess.png`,
-      expectedFilename: `${__dirname}/test-files/checkerboard.png`,
-      diffFilename: `${__dirname}/actual-files/different-size-shadow.png`,
-      shadow: true,
-    })
-    const actual = await getPixelsAsync(`${__dirname}/actual-files/different-size-shadow.png`)
-    const expected = await getPixelsAsync(`${__dirname}/expected-files/different-size-shadow.png`)
-
-    expect(difference).toMatchSnapshot()
-    expect(actual).toEqual(expected)
-  })
 })

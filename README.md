@@ -36,9 +36,6 @@ Create image differential between two images
     - `options.actualFilename` (*String*): Path to actual image file. **must** exist.
     - `options.expectedFilename` (*String*): Path to expected image file. **must** exist.
     - `options.diffFilename` (*String*): Optional path to output differential image.
-    - `options.shadow` (*Boolean*): Optional flag to indicate if we should draw a shadow of the unchanged parts of the images
-        - For example, if an image is `+` and we diff with `-`, then the image will have `|` be red but also contain a faded `-`
-        - By default, this options is `false` meaning a shadow will not be drawn
 
 #### Returns
 
@@ -70,7 +67,6 @@ Options:
 
   -h, --help     output usage information
   -V, --version  output the version number
-  --shadow       Draw a shadow of unchanges parts on diff filename
 ```
 
 

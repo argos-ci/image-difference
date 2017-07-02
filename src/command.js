@@ -10,7 +10,6 @@ program
   .version(pkg.version)
   .description('Create image differential between two images')
   .usage('[options] <actual-filename> <expected-filename> [diff-filename]')
-  .option('--shadow', 'Draw a shadow of unchanges parts on diff filename')
   .action(async (actualFilename, expectedFilename, diffFilenameArgs, command) => {
     let options = command
     let diffFilename = diffFilenameArgs
@@ -28,7 +27,7 @@ program
         actualFilename,
         diffFilename,
         expectedFilename,
-        shadow: options.shadow,
+        ...options,
       })
     } catch (error) {
       displayError('Sorry an error happened:')

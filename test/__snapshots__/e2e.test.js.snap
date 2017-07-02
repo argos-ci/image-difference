@@ -24,12 +24,6 @@ Object {
 }
 `;
 
-exports[`e2e diffing images with shadow on 1`] = `
-Object {
-  "value": 125,
-}
-`;
-
 exports[`e2e diffing the same image where 1 has a transparent background 1`] = `
 Object {
   "value": 100,
