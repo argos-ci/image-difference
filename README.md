@@ -79,26 +79,26 @@ Options:
 We use `imagemagick1` as the default implmentation
 
 ```sh
-image-diff diff x 1.19 ops/sec ±4.81% (25 runs sampled)
-image-diff same x 1.29 ops/sec ±1.59% (26 runs sampled)
+image-diff diff x 1.11 ops/sec ±1.21% (25 runs sampled)
+image-diff same x 1.07 ops/sec ±0.80% (25 runs sampled)
 
-image-difference graphicsmagick same x 1.93 ops/sec ±1.51% (29 runs sampled)
-image-difference graphicsmagick diff x 1.89 ops/sec ±1.50% (28 runs sampled)
+image-difference imagemagick1 diff x 4.43 ops/sec ±0.40% (41 runs sampled)
+image-difference imagemagick1 same x 4.45 ops/sec ±0.49% (41 runs sampled)
 
-image-difference imagemagick1 diff x 3.83 ops/sec ±1.72% (38 runs sampled)
-image-difference imagemagick1 same x 3.85 ops/sec ±1.23% (38 runs sampled)
+image-difference imagemagick2 diff x 2.96 ops/sec ±0.49% (34 runs sampled)
+image-difference imagemagick2 same x 2.94 ops/sec ±0.87% (34 runs sampled)
 
-image-difference imagemagick2 diff x 3.06 ops/sec ±1.21% (34 runs sampled)
-image-difference imagemagick2 same x 3.06 ops/sec ±1.40% (34 runs sampled)
+image-difference graphicsmagick diff x 2.32 ops/sec ±0.60% (31 runs sampled)
+image-difference graphicsmagick same x 2.30 ops/sec ±0.72% (31 runs sampled)
 
-looksSame diff x 2.13 ops/sec ±4.58% (30 runs sampled)
-looksSame same x 1.43 ops/sec ±2.54% (27 runs sampled)
+pixelmatch diff x 0.79 ops/sec ±0.94% (23 runs sampled)
+pixelmatch same x 3.58 ops/sec ±2.07% (37 runs sampled)
 
-pixelmatch diff x 0.77 ops/sec ±2.04% (23 runs sampled)
-pixelmatch same x 3.22 ops/sec ±3.45% (36 runs sampled)
+resemble diff x 0.59 ops/sec ±4.76% (22 runs sampled)
+resemble same x 0.94 ops/sec ±0.85% (24 runs sampled)
 
-resemble diff x 0.59 ops/sec ±3.34% (22 runs sampled)
-resemble same x 1.70 ops/sec ±1.86% (28 runs sampled)
+looksSame diff x 2.09 ops/sec ±3.08% (30 runs sampled)
+looksSame same x 1.08 ops/sec ±3.76% (25 runs sampled)
 ```
 
 ## Contributing
