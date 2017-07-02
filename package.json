@@ -1,7 +1,7 @@
 {
   "name": "image-difference",
   "description": "Create image differential between two images",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "homepage": "https://github.com/argos-ci/image-difference",
   "repository": {
     "type": "git",
