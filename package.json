@@ -16,7 +16,7 @@
   },
   "main": "lib/imageDifference",
   "engines": {
-    "node": ">= 7.0.0"
+    "node": ">= 6.0.0"
   },
   "scripts": {
     "build": "NODE_ENV=production babel -d lib src",
