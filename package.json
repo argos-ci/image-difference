@@ -21,7 +21,7 @@
   "scripts": {
     "prebuild": "rm -rf lib/",
     "build": "NODE_ENV=production babel -d lib src",
-    "prepublishOnly": "yarn build && pkgfiles",
+    "version": "yarn build && pkgfiles",
     "prettier": "find . -name \"*.js\" | grep -v -f .eslintignore | xargs prettier --write --no-semi --single-quote --trailing-comma es5 --print-width 100",
     "test:unit": "jest",
     "lint": "eslint . --cache && echo \"eslint: no lint errors\"",
