@@ -36,7 +36,7 @@ Create image differential between two images
     - `options.actualFilename` (*String*): Path to actual image file. **must** exist.
     - `options.expectedFilename` (*String*): Path to expected image file. **must** exist.
     - `options.diffFilename` (*String*): Optional path to output differential image.
-    - `options.metric` (*String*): Optional metric used for the computation of the output.
+    - `options.metric` (*String*, default to `AE`): Optional metric used for the computation of the output.
         - [documentation](http://legacy.imagemagick.org/script/command-line-options.php#metric)
         - [guide](http://www.imagemagick.org/Usage/compare/)
         - [implementation](https://github.com/ImageMagick/ImageMagick/blob/master/MagickCore/compare.c)
@@ -47,7 +47,7 @@ Create image differential between two images
 
 Also, depending on the metric used, we either returns `value` or `value 1`, `value2`, `valueX`.
 Those values are in the order of the ImageMagick output.
-For instance, with the default `AE` metric, `value` is the number of different pixels after the fuzz behind applied.
+For instance, with the default `AE` metric, `value` is the number of different pixels after the `fuzz` being applied.
 
 #### [Example](https://github.com/argos-ci/image-difference/tree/master/example)
 
