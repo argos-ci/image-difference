@@ -33,13 +33,13 @@ Create image differential between two images
 #### Arguments
 
 1. `options` (*Object*)
-    - `options.actualFilename` (*String*): Path to actual image file. **must** exist.
-    - `options.expectedFilename` (*String*): Path to expected image file. **must** exist.
-    - `options.diffFilename` (*String*): Optional path to output differential image.
-    - `options.metric` (*String*, default to `AE`): Optional metric used for the computation of the output.
+    - `options.metric` (*String*, default to `AE`): Optional metric used for the computation of the output.
         - [documentation](http://legacy.imagemagick.org/script/command-line-options.php#metric)
         - [guide](http://www.imagemagick.org/Usage/compare/)
         - [implementation](https://github.com/ImageMagick/ImageMagick/blob/master/MagickCore/compare.c)
+    - `options.actualFilename` (*String*): Path to actual image file. **must** exist.
+    - `options.expectedFilename` (*String*): Path to expected image file. **must** exist.
+    - `options.diffFilename` (*String*): Optional path to output differential image.
 
 #### Returns
 
