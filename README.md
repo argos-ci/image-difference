@@ -43,7 +43,11 @@ Create image differential between two images
 
 #### Returns
 
-`Promise`: Return the difference object with a `total` and `percentage` key.
+`Promise`: Return the output of the process. It's an object that contains the `width`, `height` properties.
+
+Also, depending on the metric used, we either returns `value` or `value 1`, `value2`, `valueX`.
+Those values are in the order of the ImageMagick output.
+For instance, with the default `AE` metric, `value` is the number of different pixels after the fuzz behind applied.
 
 #### [Example](https://github.com/argos-ci/image-difference/tree/master/example)
 
