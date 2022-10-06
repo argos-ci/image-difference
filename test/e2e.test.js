@@ -90,6 +90,17 @@ describe('e2e', () => {
       expectedFilename: `${__dirname}/test-files/checkerboard.png`,
       diffFilename: `${__dirname}/actual-files/different-transparent.png`,
     })
+
+    expect(difference).toMatchSnapshot()
+  })
+
+  it('diffing images with big diff', async () => {
+    const difference = await imageDifference({
+      actualFilename: `${__dirname}/test-files/old-site.png`,
+      expectedFilename: `${__dirname}/test-files/new-site.png`,
+      diffFilename: `${__dirname}/actual-files/diff-site.png`,
+    })
+
     expect(difference).toMatchSnapshot()
   })
 })

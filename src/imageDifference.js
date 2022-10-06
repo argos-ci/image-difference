@@ -73,7 +73,7 @@ export function handleRaw(difference, options) {
     case 'AE':
     case 'NCC':
     case 'FUZZ':
-      resultInfo = raw.match(/all: (\d+(\.\d+)?)/)
+      resultInfo = raw.match(/all: (.+)\n/)
       if (!resultInfo) {
         throw new Error(`Expected raw to contain 'all' but received "${raw}"`)
       }

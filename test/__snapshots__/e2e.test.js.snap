@@ -32,6 +32,14 @@ Object {
 }
 `;
 
+exports[`e2e diffing images with big diff 1`] = `
+Object {
+  "height": 4469,
+  "value": 4434050,
+  "width": 1000,
+}
+`;
+
 exports[`e2e diffing the same image where 1 has a transparent background 1`] = `
 Object {
   "height": 10,
