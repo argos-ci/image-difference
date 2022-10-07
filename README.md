@@ -1,5 +1,7 @@
 # image-difference
 
+> :warning: **This project is deprecated and no longer maintained.**
+
 > Create image differential between two images
 
 [![npm package](https://img.shields.io/npm/v/image-difference.svg)](https://www.npmjs.org/package/image-difference)
